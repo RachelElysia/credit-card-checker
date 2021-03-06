@@ -25,10 +25,74 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 
 // Add your functions below:
 
-
-
-
-
-
-
-
+function validateCred(creditCardArray) {
+    console.log(creditCardArray)
+  
+    for (let i=creditCardArray.length-1; i>=0; i--) {
+      if (i % 2 == 0) {
+        creditCardArray[i] *= 2;
+        if (creditCardArray[i] > 9) {
+          creditCardArray[i] -= 9;
+        }
+      }
+    }
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    console.log(creditCardArray);
+    let sumOfArray = creditCardArray.reduce(reducer);
+    if (sumOfArray % 10 == 0) {
+      console.log('This one was valid.')
+      return true;
+    }
+    console.log('This one was invalid.')
+    return false;
+  }
+  
+  validateCred(invalid2);
+  
+  function findInvalidCards(cards) {
+    let invalidCards = [];
+    for (let i=0; i < cards.length; i++) {
+      if (validateCred(cards[i]) == false) {
+        invalidCards.push(cards[i])
+      }
+    }
+    return invalidCards;
+  }
+  
+  console.log("These are all invalid:", findInvalidCards(batch));
+  
+  const invalidCardsFound = findInvalidCards(batch)
+  
+  console.log("These are the invalidCardsFound:", invalidCardsFound)
+  
+  function idInvalidCardCompanies(invalidCardsArray) {
+    let array = [];
+    for(let i=0; i<invalidCardsArray.length; i++) {
+      console.log("Start digit:", invalidCardsArray[i][0])
+      switch(invalidCardsArray[i][0]) {
+        case 3:
+          if (array.indexOf("Amex") == -1){
+            array.push("Amex");
+          }
+          break;
+        case 4:
+          if (array.indexOf("Visa") == -1) {
+            array.push("Visa");
+          }
+          break;
+        case 5:
+          if (array.indexOf('MasterCard') == -1) {
+            array.push("MasterCard");
+          }
+          break;
+        case 6:
+          if (array.indexOf('Discover') == -1) {
+            array.push("Discover");
+          }
+          break;
+      }
+    }
+    return array
+  }
+  
+  console.log(idInvalidCardCompanies(invalidCardsFound))
